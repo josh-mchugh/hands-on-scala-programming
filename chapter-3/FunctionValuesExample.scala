@@ -10,7 +10,7 @@ class Box(var x: Int):
   def printMsg(msg: String) =
     println(msg + x)
 
-val b = new Box(1)
+val b = Box(1)
 b.printMsg("Hello")
 println(s"b.update(i => i + 5)")
 b.update(i => i + 5)
@@ -19,7 +19,7 @@ b.update(_ + 5)
 b.printMsg("Hello")
 
 def increment(i: Int) = i + 1
-val b2 = new Box(123)
+val b2 = Box(123)
 b2.update(increment)
 b2.update(x => increment(x))
 b2.update(x => increment(x))
