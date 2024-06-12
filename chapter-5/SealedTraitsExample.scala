@@ -12,3 +12,11 @@ def hypotenuse(p: Point) =
 val points = Array(Point2D(1, 2), Point3D(4, 5, 6))
 
 for p <- points do println(hypotenuse(p))
+
+sealed trait Json
+case class Null() extends Json
+case class Bool(value: Boolean) extends Json
+case class Str(value: String) extends Json
+case class Num(value: Double) extends Json
+case class Arr(value: Seq[Json]) extends Json
+case class Dict(value: Map[String, Json]) extends Json
