@@ -1,0 +1,26 @@
+println("Typeclass Example")
+
+trait StrParser[T]:
+  def parse(s: String): T
+
+object StrParser:
+  implicit object ParseInt extends StrParser[Int]:
+    def parse(s: String) = s.toInt
+
+  implicit object ParseBoolean extends StrParser[Boolean]:
+    def parse(s: String) = s.toBoolean
+
+  implicit object ParseDouble extends StrParser[Double]:
+    def parse(s: String) = s.toDouble
+
+
+def parseFromString[T](s: String)(implicit parser: StrParser[T]) =
+  parser.parse(s)
+
+val args = Seq("123", "true", "7.5")
+val myInt = parseFromString[Int](args(0))
+println(s"myInt: ${myInt}")
+val myBoolean = parseFromString[Boolean](args(1))
+println(s"myBoolean: ${myBoolean}")
+val myDouble = parseFromString[Double](args(2))
+println(s"myDouble: ${myDouble}")
