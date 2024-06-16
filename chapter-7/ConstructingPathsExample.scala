@@ -1,0 +1,6 @@
+println("Constructing Paths Example")
+println(s"os.home / \"GitHub\" / \"blog\": ${os.home / "GitHub" / "blog"}")
+println(s"os.pwd / os.up: ${os.pwd / os.up}")
+println(s"os.pwd / os.up / os.up: ${os.pwd / os.up / os.up}")
+println(s"os.Path(\"posts\", base = os.pwd): ${os.Path("posts", base = os.pwd)}")
+println(s"os.Path(\"../Ammonite\", base = os.pwd): ${os.Path("../Ammonite", base = os.pwd)}")
