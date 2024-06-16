@@ -1,0 +1,6 @@
+println("Queries Example")
+println(s"os.list(os.pwd): ${os.list(os.pwd)}")
+println("*" * 15)
+println(s"os.walk(os.pwd): ${os.walk(os.pwd)}")
+println("*" * 15)
+println(s"os.stat(os.pwd / \"PathsExample.scala\"): ${os.stat(os.pwd / "PathsExample.scala")}")
