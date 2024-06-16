@@ -1,0 +1,6 @@
+println("Paths Example")
+println(s"os.pwd: ${os.pwd}")
+println(s"os.root: ${os.root}")
+println(s"os.home: ${os.home}")
+println(s"os.home.segments.toList: ${os.home.segments.toList}")
+println(s"os.home.last: ${os.home.last}")
