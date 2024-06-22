@@ -1,0 +1,15 @@
+println("Requests Scala")
+
+val r = requests.get("https://api.github.com/users/lihaoyi")
+println(s"r.statusCode: ${r.statusCode}")
+println(s"r.headers(\"content-type\"): ${r.headers("content-type")}")
+println(s"r.text(): ${r.text()}")
+
+val r1 = requests.post("https://httpbin.org/post", data = Map("key" -> "value"))
+println(s"r1: $r1")
+val r2 = requests.put("https://httpbin.org/put", data = Map("key" -> "value"))
+println(s"r2: $r2")
+val r3 = requests.delete("https://httpbin.org/delete")
+println(s"r3: $r3")
+val r4 = requests.options("https://httpbin.org/get")
+println(s"r4: $r4")
