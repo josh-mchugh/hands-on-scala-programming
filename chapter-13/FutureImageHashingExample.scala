@@ -16,7 +16,26 @@ def hash(name: String) =
 
 //println(s"hash(\"coffee1.jpg\"): ${hash("coffee1.jpg")}")
 //println(s"hash(\"coffee2.jpg\"): ${hash("coffee2.jpg")}")
-val f1 = Future( { "hello" + 123 + "world" } )
-val f2 = Future( { hash("coffee1.jpg") } )
-println(s"f1: $f1")
-println(s"f2: ${Await.result(f2, Duration.Inf)}")
+
+//val f1 = Future( { "hello" + 123 + "world" } )
+//val f2 = Future( { hash("coffee1.jpg") } )
+//println(s"f1: $f1")
+//println(s"f2: ${Await.result(f2, Duration.Inf)}")
+
+val f = Future( { hash("coffee1.jpg") } )
+val result = hash("coffee2.jpg")
+//println(s"result: $result")
+
+val backgroundResult = Await.result(f, Duration.Inf)
+//println(s"backgroundResult: $backgroundResult")
+
+val (hashes, duration) = time {
+  val futures = 
+    for p <- os.list(os.pwd).filter(_.last.contains(".jpg")) yield
+      Future ( {
+        println(s"Hashing: $p")
+        hash(p.last)
+      })
+  futures.map(Await.result(_, Duration.Inf))
+}
+
