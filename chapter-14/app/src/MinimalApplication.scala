@@ -3,10 +3,10 @@ import scalatags.Text.all.*
 
 object MinimalApplication extends cask.MainRoutes:
 
-  var messages = Vector(("alice", "Hello World!"), ("bob", "I am cow, hear me moo"))
   val bootstrap = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.css"
 
-  def messageList() = frag(for (name, msg) <- messages yield p(b(name), " ", msg))
+  var openConnections = Set.empty[cask.WsChannelActor]
+  var messages = Vector(("alice", "Hello World!"), ("bob", "I am cow, hear me moo"))
 
   @cask.staticResources("/static")
   def staticResourceRoutes() = "static"
@@ -40,7 +40,20 @@ object MinimalApplication extends cask.MainRoutes:
     else if msg == "" then ujson.Obj("success" -> false, "err" -> "Message cannot be empty")
     else
       messages = messages :+ (name -> msg)
-      ujson.Obj("success" -> true, "txt" -> messageList().render, "err" -> "")
+      for conn <- openConnections do conn.send(cask.Ws.Text(messageList().render))
+      ujson.Obj("success" -> true, "err" -> "")
+
+  @cask.websocket("/subscribe")
+  def subscribe() =
+    cask.WsHandler { connection =>
+      connection.send(cask.Ws.Text(messageList().render))
+      openConnections += connection
+      cask.WsActor {
+        case cask.Ws.Close(_, _) => openConnections -= connection
+      }
+    }
+
+  def messageList() = frag(for (name, msg) <- messages yield p(b(name), " ", msg))
 
   initialize()
 end MinimalApplication
